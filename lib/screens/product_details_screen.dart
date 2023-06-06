@@ -34,6 +34,7 @@ class _ProductDetailScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productFormProvider = Provider.of<ProductFormProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
