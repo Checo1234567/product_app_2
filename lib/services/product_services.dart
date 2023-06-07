@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:product_app_login/models/models.dart';
@@ -11,12 +12,12 @@ class ProductService extends ChangeNotifier {
 
   late ProductModel selectedProduct;
 
+  final storage = const FlutterSecureStorage();
+
   bool isLoading = true;
   bool isSaving = true;
 
   File? newPictureFile;
-
-  //TODO: Hacer fetch de productos
 
   ProductService() {
     loadProducts();
@@ -26,7 +27,9 @@ class ProductService extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final url = Uri.https(_baseURL, 'products.json');
+    final url = Uri.https(_baseURL, 'products.json', {
+      'auth': await storage.read(key: 'idToken') ?? '',
+    });
     final res = await http.get(url);
 
     final Map<String, dynamic> productMap = json.decode(res.body);
@@ -62,7 +65,9 @@ class ProductService extends ChangeNotifier {
   }
 
   Future<String> updateProduct(ProductModel product) async {
-    final url = Uri.https(_baseURL, 'products/${product.id}.json');
+    final url = Uri.https(_baseURL, 'products/${product.id}.json', {
+      'auth': await storage.read(key: 'idToken') ?? '',
+    });
     await http.put(url, body: product.toJson());
     // final res = await http.put(url, body: product.toJson());
 
@@ -77,7 +82,9 @@ class ProductService extends ChangeNotifier {
   }
 
   Future<String> createProduct(ProductModel product) async {
-    final url = Uri.https(_baseURL, 'products.json');
+    final url = Uri.https(_baseURL, 'products.json', {
+      'auth': await storage.read(key: 'idToken') ?? '',
+    });
     final res = await http.post(url, body: product.toJson());
 
     final decodedData = json.decode(res.body);
@@ -116,8 +123,6 @@ class ProductService extends ChangeNotifier {
     final res = await http.Response.fromStream(streamResponse);
 
     if (res.statusCode != 200 && res.statusCode != 201) {
-      print(res.body);
-      print('Something went wrong!');
       return null;
     }
 

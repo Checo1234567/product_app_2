@@ -16,6 +16,9 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => ProductService(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthService(),
         )
       ],
       child: const MyApp(),
@@ -32,13 +35,15 @@ class MyApp extends StatelessWidget {
       title: 'Productos_app',
       debugShowCheckedModeBanner: false,
       routes: {
-        'login': (_) => const LoginScreen(),
+        'check_auth': (_) => const CheckAuthScreen(),
         'home': (_) => const HomeScreen(),
-        'product': (context) => const ProductDetailsScreen(),
-        'sign_up': (context) => const SignUpScreen(),
+        'login': (_) => const LoginScreen(),
+        'product': (_) => const ProductDetailsScreen(),
+        'sign_up': (_) => const SignUpScreen(),
       },
-      initialRoute: 'sign_up',
+      initialRoute: 'login',
       theme: AppTheme.appLightTheme,
+      scaffoldMessengerKey: NotificationService.messengerKey,
     );
   }
 }

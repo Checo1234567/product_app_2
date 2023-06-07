@@ -12,11 +12,11 @@ class AppTheme {
       foregroundColor: primary,
     )),
     scaffoldBackgroundColor: Colors.grey[300],
-
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: primary,
       elevation: 5,
     ),
+
     // elevatedButtonTheme: ElevatedButtonThemeData(
     //   style: ElevatedButton.styleFrom(
     //     backgroundColor: primary,

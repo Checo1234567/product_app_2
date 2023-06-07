@@ -9,14 +9,14 @@ class AuthBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Stack(
         children: [
           _PurpleBox(),
           const HeaderIcon(),
-          this.child,
+          child,
         ],
       ),
     );
